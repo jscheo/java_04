@@ -66,9 +66,9 @@ public class BankService {
             ClientDTO clientDTO = bankRepository.inputMoney(inAccount, inMoney);
             System.out.println(clientDTO);
             AccountDTO accountDTO = new AccountDTO(inAccount, inMoney, 0, date);
-            boolean result1 = bankRepository.inpuList(accountDTO);
+            boolean result1 = bankRepository.inputList(accountDTO);
             if(result1){
-                System.out.println(result1);
+                System.out.println(accountDTO);
             }
         }else{
             System.out.println("계좌가 존재하지 않습니다.");
@@ -91,10 +91,13 @@ public class BankService {
                 ClientDTO clientDTO = bankRepository.outMoney(outAccount, outMoney);
                 if(clientDTO != null){
                     System.out.println("출금이 완료되었습니다.");
+                    System.out.println(clientDTO);
                     String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     AccountDTO accountDTO = new AccountDTO(outAccount, 0, outMoney, date);
-                    boolean result2 = bankRepository.outList(accountDTO);
-                    System.out.println(accountDTO);
+                    boolean result2 = bankRepository.outputList(accountDTO);
+                    if(result2){
+                        System.out.println(accountDTO);
+                    }
                 }else{
                     System.out.println("잔액이 부족합니다.");
                 }
@@ -107,7 +110,7 @@ public class BankService {
     }
 
     public void findByAc() {
-        System.out.println("계좌번호 : ");
+        System.out.print("계좌번호 : ");
         String account = scanner.next();
         boolean result = bankRepository.cheak1(account);
         if(result){
@@ -116,17 +119,27 @@ public class BankService {
                 System.out.println("-------------------------------------");
                 System.out.println("1.전체내역 2.입금내역 3.출금내역 4.종료");
                 System.out.println("-------------------------------------");
+                System.out.print("메뉴선택");
                 int sel = scanner.nextInt();
 
                 if(sel == 1){
                     System.out.println("전체내역");
-                    List<AccountDTO> accountDTOList = bankRepository.list();
-                    System.out.println(accountDTOList);
+                    List<AccountDTO> accountDTOList = bankRepository.allList();
+                    for(AccountDTO accountDTO : accountDTOList){
+                        System.out.println(accountDTO);
+                    }
                 }else if(sel == 2){
                     System.out.println("입금내역");
-
+                    List<AccountDTO> accountDTOList = bankRepository.inList();
+                    for(AccountDTO accountDTO : accountDTOList){
+                        System.out.println(accountDTO);
+                    }
                 }else if(sel == 3){
                     System.out.println("출금내역");
+                    List<AccountDTO> accountDTOList = bankRepository.outList();
+                    for(AccountDTO accountDTO : accountDTOList){
+                        System.out.println(accountDTO);
+                    }
                 }else if(sel == 4){
                     System.out.println("종료");
                     run = false;

@@ -14,7 +14,7 @@ public class BankMain {
             System.out.println("-------------------------------------------------------------------");
             System.out.println("1.계좌등록 2.잔액조회 3.입금 4.출금 5.입출금 내역조회 0.종료");
             System.out.println("-------------------------------------------------------------------");
-            System.out.println("메뉴선택:");
+            System.out.print("메뉴선택:");
             int sel = scanner.nextInt();
 
             if(sel == 1){
